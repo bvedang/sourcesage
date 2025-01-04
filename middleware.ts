@@ -10,6 +10,7 @@ const PUBLIC_ROUTES = [
   "/verify-email",
   "/error",
   "/favicon.ico",
+  "/",
   "/api/public/(.*)",
 ];
 
