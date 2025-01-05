@@ -1,4 +1,5 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+"use client";
+import { Bot, CreditCard, LayoutDashboard, Presentation } from "lucide-react";
 
 import {
   Sidebar,
@@ -6,58 +7,98 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-// Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Q&A",
+    url: "/qa",
+    icon: Bot,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
+    title: "Meetings",
+    url: "/meetings",
+    icon: Presentation,
   },
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
+    title: "Billing",
+    url: "/billing",
+    icon: CreditCard,
+  },
+];
+
+const projects = [
+  {
+    name: "Project 1",
   },
   {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    name: "Project 2",
+  },
+  {
+    name: "Project 3",
+  },
+  {
+    name: "Project 4",
   },
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon" variant="floating">
+      <SidebarHeader>Logo</SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.map((item) => {
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href={item.url}
+                        className={cn({
+                          "bg-primary text-white": pathname === item.url,
+                        })}
+                      >
+                        <item.icon />
+                        <span className="">{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Projects</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {projects.map((project) => {
+                return (
+                  <SidebarMenuItem key={project.name}>
+                    <SidebarMenuButton asChild>
+                      <Link href={`/projects/${project.name}`}>
+                        <span>{project.name}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
